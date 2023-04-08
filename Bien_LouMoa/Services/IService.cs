@@ -1,6 +1,6 @@
-﻿using Bien_LouMoa.Models;
+﻿using BienLocatif_LouMoa.Models;
 
-namespace Bien_LouMoa.Services;
+namespace BienLocatif_LouMoa.Services;
 
 public interface IService<T>
 {

@@ -1,8 +1,10 @@
-﻿using Bien_LouMoa.Services;
+﻿using Bien_LouMoa.Services.middlewares;
+using BienLocatif_LouMoa.Models;
+using BienLocatif_LouMoa.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-namespace Bien_LouMoa;
+namespace BienLocatif_LouMoa;
 
 public class Startup
 {
@@ -18,13 +20,14 @@ public class Startup
         // Ajouter le contexte de base de données avec la connexion PostgreSQL
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+        services.AddScoped<IService<BienLocatif>,BienLocatifService>();
 
         services.AddControllers();
 
         // Ajouter Swagger
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bien_LouMoa", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "BienLocatif_LouMoa", Version = "v1" });
         });
     }
 
@@ -47,12 +50,13 @@ public class Startup
 
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<UserHeaderMiddleware>();
 
         // Activer Swagger
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bien_LouMoa V1");
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "BienLocatif_LouMoa V1");
         });
 
         app.UseEndpoints(endpoints =>

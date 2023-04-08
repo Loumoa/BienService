@@ -1,7 +1,7 @@
-﻿using Bien_LouMoa.Models;
+﻿using BienLocatif_LouMoa.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bien_LouMoa.Services;
+namespace BienLocatif_LouMoa.Services;
 
 public class ApplicationDbContext : DbContext
 {
@@ -10,11 +10,11 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Bien> Biens { get; set; }
+    public DbSet<BienLocatif> BienLocatifs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Bien>(entity =>
+        modelBuilder.Entity<BienLocatif>(entity =>
         {
             entity.HasKey(e => e.IdBien);
             entity.Property(e => e.Adresse).IsRequired().HasMaxLength(50);
@@ -22,7 +22,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.NbChambres).IsRequired();
             entity.Property(e => e.NbLits).IsRequired();
             entity.Property(e => e.NbSallesDeBain).IsRequired();
-            entity.Property(e => e.IdUtilisateur).IsRequired();
+            entity.Property(e => e.IdProprietaire).IsRequired();
         });
 
         base.OnModelCreating(modelBuilder);
